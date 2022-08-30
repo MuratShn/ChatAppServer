@@ -9,6 +9,6 @@ namespace DataAccess.Abstract.Message
 {
     public interface IMessageReadRepository : IReadRepository<Entities.Abstract.Message>
     {
-
+        //Eski projedeki gibi ayrı sorguları buraya yazabılırım
     }
 }

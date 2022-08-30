@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
+    //Write Ve Read core katmanındada olabilirdi bence ?
     public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {
         private readonly Context _context;
