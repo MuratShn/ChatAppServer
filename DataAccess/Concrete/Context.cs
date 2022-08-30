@@ -2,6 +2,7 @@
 using Entities.Abstract.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,13 @@ namespace DataAccess.Concrete
 {
     public class Context : IdentityDbContext<AppUser,AppRole,string>
     {
+        //public IConfiguration _configuration { get; }
+
+        //public Context(IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+        //}
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server = .;Database=ChatApp;Integrated Security=True;");

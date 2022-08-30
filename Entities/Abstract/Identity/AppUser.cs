@@ -13,5 +13,9 @@ namespace Entities.Abstract.Identity
         public string? LastName { get; set; }
         public string? ClientId { get; set; }
         public string? RefreshToken { get; set; }
+
+        public ICollection<Chat> Chats { get; set; }
+        public ICollection<ChatMember> ChatMembers { get; set; }
+        public ICollection<Message> Messages { get; set; } 
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Core.Entities;
+using Entities.Abstract.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +11,12 @@ namespace Entities.Abstract
 {
     public class Message : BaseEntity
     {
+        [ForeignKey(nameof(AppUser))]
         public string? SenderUserId { get; set; }
-        public string? ChatId { get; set; }
+        public Guid? ChatId { get; set; }
         public string? MessageContent { get; set; }
-        public DateTime MessageDate { get; set; }
+
+        public AppUser AppUser { get; set; }
+        public Chat Chat { get; set; }
     }
 }
