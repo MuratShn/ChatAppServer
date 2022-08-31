@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Core.Entities;
 using DataAccess.Abstract.Chat;
 using DataAccess.Abstract.ChatMember;
 using DataAccess.Abstract.Message;
@@ -6,7 +7,6 @@ using DataAccess.Concrete;
 using DataAccess.Concrete.Chat;
 using DataAccess.Concrete.ChatMember;
 using DataAccess.Concrete.Message;
-using Entities.Abstract.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,14 +21,14 @@ namespace DataAccess
         public static void AddDataAccessServices(this IServiceCollection services)
         {
             services.AddDbContext<Context>();
-            //services.AddIdentity<AppUser, AppRole>(options =>
-            //{
-            //    options.Password.RequiredLength = 3;
-            //    options.Password.RequireNonAlphanumeric = false;
-            //    options.Password.RequireDigit = false;
-            //    options.Password.RequireLowercase = false;
-            //    options.Password.RequireUppercase = false;
-            //}).AddEntityFrameworkStores<Context>();
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<Context>();
 
 
             services.AddScoped<IMessageReadRepository, MessageReadRepository>();

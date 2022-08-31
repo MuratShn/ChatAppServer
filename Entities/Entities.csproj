@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO%27S\" />
+  </ItemGroup>
+
 </Project>

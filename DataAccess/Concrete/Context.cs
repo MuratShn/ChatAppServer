@@ -1,5 +1,4 @@
 ﻿using Core.Entities;
-using Entities.Abstract.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,16 +12,16 @@ namespace DataAccess.Concrete
 {
     public class Context : IdentityDbContext<AppUser,AppRole,string>
     {
-        //public IConfiguration _configuration { get; }
+        readonly IConfiguration _configuration;
 
-        //public Context(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
+        public Context(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = .;Database=ChatApp;Integrated Security=True;");
+            optionsBuilder.UseSqlServer(_configuration["SqlConnection"]);
         }
         public DbSet<Entities.Abstract.Chat> Chats { get; set; }
         public DbSet<Entities.Abstract.Message> Messages { get; set; }
