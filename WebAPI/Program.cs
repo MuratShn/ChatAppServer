@@ -1,14 +1,17 @@
+using Business;
 using Core.Token;
 using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddDataAccessServices();
+builder.Services.AddBusinessServices();
 
 builder.Services.AddScoped<ITokenHandler,Core.Token.TokenHandler>();
 
