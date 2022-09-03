@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         {
             var request = new GetUserInfoQueryRequest() { UserId = User.Identities.First().Name};
 
-            var result = _mediator.Send(request);
+            var result = await _mediator.Send(request);
             
             return Ok(result);
         }

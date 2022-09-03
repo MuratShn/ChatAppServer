@@ -20,8 +20,8 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Login(UserLoginQueryRequest user)
         {
             var result = await _mediator.Send(user);
-            
 
+            
             return Ok(result);
         }
     }
