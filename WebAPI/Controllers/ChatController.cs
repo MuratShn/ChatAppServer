@@ -1,4 +1,5 @@
 ﻿using Business.Features.Queries.Chat.ChatGroup;
+using Business.Features.Queries.Chat.GetChatDetail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,18 @@ namespace WebAPI.Controllers
 
             var result = await _mediator.Send(request);
 
+            return Ok(result);
+        }
+
+        [HttpGet("getChatDetail")]
+        public async Task<IActionResult> GetChatDetail([FromQuery]GetChatDetailQueryRequest request)
+        {
+            /*
+             * User Sayısı 2den fazla ise grup kabul edıcez aslında onun ıcın bır paratmerede koyabılırdık databse 
+             * userların kullanıcı adını ve grup bilgisi alıcaz 
+             */
+            request.MyUserId = User.Identities.First().Name;
+            var result = await _mediator.Send(request);
             return Ok(result);
         }
     }

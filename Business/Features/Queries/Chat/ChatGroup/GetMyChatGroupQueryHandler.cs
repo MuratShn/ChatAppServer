@@ -39,10 +39,17 @@ namespace Business.Features.Queries.Chat.ChatGroup
 
             foreach (var item in ChatGroupDetailDto)
             {
-                var lastMessage = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).Select(x => x.MessageContent).First().ToString();
+                string lastMessage="";
+                string lastMessageDate="";
 
-                var lastMessageDate = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).Select(x => x.CreatedDate).First().ToString();
+                var res1 = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+                
+                if (res1 != null)
+                    lastMessage = res1.MessageContent;
 
+                var res2 = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+                if (res2 != null)
+                    lastMessageDate = res2.CreatedDate.ToString();
 
 
                 ChatGroupDetailDtoLeft add = new ChatGroupDetailDtoLeft()
@@ -56,7 +63,7 @@ namespace Business.Features.Queries.Chat.ChatGroup
                 };
                 result.Add(add);
             }
-            return new GetMyChatGroupQueryResponse { ChatGroupDetails = result };
+            return  new GetMyChatGroupQueryResponse { ChatGroupDetails = result };
         }
     }
 }
