@@ -1,4 +1,5 @@
-﻿using Business.Features.Queries.Chat.ChatGroup;
+﻿using Business.Features.Commands.Chat.AddChat;
+using Business.Features.Queries.Chat.ChatGroup;
 using Business.Features.Queries.Chat.GetChatDetail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ChatController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,7 +22,6 @@ namespace WebAPI.Controllers
 
 
         [HttpGet("getMyChats")]
-        [Authorize]
         public async Task<IActionResult> GetMyChats()
         {
 
@@ -40,6 +41,14 @@ namespace WebAPI.Controllers
              * userların kullanıcı adını ve grup bilgisi alıcaz 
              */
             request.MyUserId = User.Identities.First().Name;
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+
+        [HttpPost("addChat")]
+        public async Task<IActionResult> AddChat(AddChatCommandRequest request)
+        {
+            request.CreateUserId = User.Identities.First().Name;
             var result = await _mediator.Send(request);
             return Ok(result);
         }
