@@ -11,10 +11,12 @@ namespace Business.Features.Commands.Message.AddMessage
     public class AddMessageCommandHandler : IRequestHandler<AddMessageCommandRequest, AddMessageCommandResponse>
     {
         private readonly IMessageWriteRepository _messageWriteRepository;
+        private readonly IChatHubService _chatHubService;
 
-        public AddMessageCommandHandler(IMessageWriteRepository messageWriteRepository)
+        public AddMessageCommandHandler(IMessageWriteRepository messageWriteRepository, IChatHubService chatHubService)
         {
             _messageWriteRepository = messageWriteRepository;
+            _chatHubService = chatHubService;
         }
 
         public async Task<AddMessageCommandResponse> Handle(AddMessageCommandRequest request, CancellationToken cancellationToken)
@@ -30,6 +32,7 @@ namespace Business.Features.Commands.Message.AddMessage
                 );
                 await _messageWriteRepository.SaveAsync();
                 //signal R işlemleride olucak şimdilik böyle bırakıyorum onu en son yapıcam
+                await _chatHubService.Test(request.Message);
                 return new AddMessageCommandResponse { isSucceded = true, Message = "Başarılı" };
             }
             else

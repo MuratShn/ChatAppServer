@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Business.Concrete;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Business
     {
         public static void AddBusinessServices(this IServiceCollection services)
         {
+            services.AddTransient<IChatHubService, ChatHubService>();
             services.AddMediatR(typeof(ServiceRegistration));
         }
     }

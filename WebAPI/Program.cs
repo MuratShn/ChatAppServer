@@ -1,4 +1,6 @@
 using Business;
+using Core;
+using Core.Hubs;
 using Core.Token;
 using DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,13 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddCoreServices();
 builder.Services.AddDataAccessServices();
 builder.Services.AddBusinessServices();
 
-builder.Services.AddScoped<ITokenHandler,Core.Token.TokenHandler>();
+
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(isOriginAllowed=>true)
 ));
 
 builder.Services.AddAuthentication(x => {
@@ -56,6 +59,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 app.UseCors();
 app.UseHttpsRedirection();
 
@@ -63,5 +68,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
+
 
 app.Run();

@@ -52,6 +52,9 @@ namespace Business.Features.Commands.Chat.AddChat
 
                             chatMembers.Add(new ChatMember() { ChatId = chat.Id, AppUserId = user.Id });
                         }
+                       
+                        chatMembers.Add(new ChatMember() { ChatId = chat.Id, AppUserId = request.CreateUserId }); //grubu kuran kişiyide eklıyoz tabi
+                        
                         await _chatMemberWriteRepository.AddRangeAsync(chatMembers);
                     }
 
