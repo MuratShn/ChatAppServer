@@ -31,8 +31,12 @@ namespace Business.Features.Commands.Message.AddMessage
                 }
                 );
                 await _messageWriteRepository.SaveAsync();
+
                 //signal R işlemleride olucak şimdilik böyle bırakıyorum onu en son yapıcam
-                await _chatHubService.Test(request.Message);
+
+
+                await _chatHubService.SendMessage(request); //direk request'i al 
+
                 return new AddMessageCommandResponse { isSucceded = true, Message = "Başarılı" };
             }
             else

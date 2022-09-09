@@ -18,7 +18,7 @@ namespace Core.Hubs
             _userManager = userManager;
         }
 
-        public async Task Login(string username)
+        public async Task Login(string username) //buda service'te yazılmalı aslında
         {
             var user = await _userManager.FindByNameAsync(username);
             user.ClientId = Context.ConnectionId;
