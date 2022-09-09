@@ -27,20 +27,35 @@ namespace Business.Concrete
             _userManager = userManager;
         }
 
-        public async Task SendMessage(AddMessageCommandRequest request)
+        public async Task SendMessage(AddMessageCommandRequest Request)
         {
 
-            var usersId = _chatMemberReadRepository.GetWhere(x => x.ChatId == Guid.Parse(request.ChatId)).Select(x => x.AppUserId).ToList();
-            usersId.Add(request.SenderUserId);
+            var usersId = _chatMemberReadRepository.GetWhere(x => x.ChatId == Guid.Parse(Request.ChatId)).Select(x => x.AppUserId).ToList();
+            usersId.Add(Request.SenderUserId);
 
             var clientsId = _userManager.Users.Where(x => usersId.Contains(x.Id)).Select(x => x.ClientId).ToList();
 
-            var senderUserName = await _userManager.FindByIdAsync(request.SenderUserId);
+            var senderUserName = await _userManager.FindByIdAsync(Request.SenderUserId);
 
 
-            var result = new GetMessagesDto() { MessageContent = request.Message, MessageTime = DateTime.UtcNow, SenderUserName = senderUserName.UserName };
+            var result = new GetMessagesDto() { MessageContent = Request.Message, MessageTime = DateTime.UtcNow, SenderUserName = senderUserName.UserName };
+
+            await this.UpdateLeftChatGroup(Request, clientsId); //burdada yazabılırdık'de simdi solid falan ayıp olmasın
+
             await _hubContext.Clients.Clients(clientsId).SendAsync("receiveMessage", result);
 
+        }
+
+        public async Task UpdateLeftChatGroup(AddMessageCommandRequest Request,List<string> ClientsId)
+        {
+            var result = new UpdateChatGroupDto()
+            {
+                ChatId = Request.ChatId,
+                Message = Request.Message,
+                MessageDate = DateTime.UtcNow
+            };
+
+            await _hubContext.Clients.Clients(ClientsId).SendAsync("updateGroupPosition", result);
         }
     }
 }

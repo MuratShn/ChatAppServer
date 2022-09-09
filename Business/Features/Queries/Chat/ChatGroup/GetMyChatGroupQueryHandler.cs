@@ -31,7 +31,7 @@ namespace Business.Features.Queries.Chat.ChatGroup
             var chatsId = _chatMemberReadRepository.GetWhere(x => x.AppUserId == request.UserId).Select(x => x.ChatId).ToList();
 
             var ChatGroupDetailDto = _chatReadRepository.GetWhere(x => chatsId.Contains(x.Id)).ToList();
-            
+
             //Mapper Yapılması Gerekiyor
             //Bu Metoda Direk Refactoing gerekicek
 
@@ -39,17 +39,16 @@ namespace Business.Features.Queries.Chat.ChatGroup
 
             foreach (var item in ChatGroupDetailDto)
             {
-                string lastMessage="";
-                string lastMessageDate="";
+                string lastMessage = "";
+                DateTime lastMessageDate = DateTime.Now;
 
-                var res1 = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-                
-                if (res1 != null)
-                    lastMessage = res1.MessageContent;
+                var message = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).FirstOrDefault(); //o chatin son mesajı
 
-                var res2 = _messageReadRepository.GetWhere(x => x.ChatId == item.Id).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-                if (res2 != null)
-                    lastMessageDate = res2.CreatedDate.ToString();
+                if (message != null)
+                {
+                    lastMessage = message.MessageContent;
+                    lastMessageDate = message.CreatedDate;
+                }
 
 
                 ChatGroupDetailDtoLeft add = new ChatGroupDetailDtoLeft()
@@ -63,7 +62,9 @@ namespace Business.Features.Queries.Chat.ChatGroup
                 };
                 result.Add(add);
             }
-            return  new GetMyChatGroupQueryResponse { ChatGroupDetails = result };
+            result = result.OrderByDescending(x => x.LastMessageDate).ToList(); //mecbur sekılde son mesaja gore sıralamam lazım chatleri
+
+            return new GetMyChatGroupQueryResponse { ChatGroupDetails = result };
         }
     }
 }

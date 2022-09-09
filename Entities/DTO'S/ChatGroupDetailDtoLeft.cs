@@ -16,7 +16,7 @@ namespace Entities.DTO_S
         public string? ChatPhoto { get; set; }
 
         public string LastMessage { get; set; }
-        public string LastMessageDate { get; set; }
+        public DateTime LastMessageDate { get; set; }
 
     }
 }

@@ -9,6 +9,7 @@ namespace Business
 {
     public interface IChatHubService
     {
-        public  Task SendMessage(AddMessageCommandRequest request);
+        public  Task SendMessage(AddMessageCommandRequest Request);
+        public Task UpdateLeftChatGroup(AddMessageCommandRequest Request,List<string> ClientsId);
     }
 }
