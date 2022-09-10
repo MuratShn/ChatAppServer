@@ -23,8 +23,8 @@ namespace Business.Features.Queries.Message.GetMessages
 
         public async Task<GetMessagesQueryResponse> Handle(GetMessagesQueryRequest request, CancellationToken cancellationToken)
         {
-            var messages = _messageReadRepository.GetWhere(x => x.ChatId == Guid.Parse(request.ChatId)).OrderBy(x=>x.CreatedDate).ToList();
-
+            var messages = _messageReadRepository.GetWhere(x => x.ChatId == Guid.Parse(request.ChatId)).OrderByDescending(x => x.CreatedDate).Skip(request.Page * 20).Take(20).ToList();
+            
             if (messages != null)
             {
                 var messagesList = new List<GetMessagesDto>();

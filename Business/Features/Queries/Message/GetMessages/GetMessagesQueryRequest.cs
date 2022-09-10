@@ -11,6 +11,7 @@ namespace Business.Features.Queries.Message.GetMessages
     {
         public string ChatId { get; set; }
         public string? MyUserId { get; set; }
+        public int Page { get; set; } = 0;
 
     }
 }

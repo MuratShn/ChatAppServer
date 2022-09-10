@@ -34,7 +34,7 @@ namespace Business.Features.Commands.Chat.AddChat
                     var chat = new Entities.Abstract.Chat() { ChatDescription = request.GroupDescription, ChatName = request.GroupName ,CreatedUserId =request.CreateUserId}; //chatin ıd'si lazım
                     await _writeChatRepository.AddAsync(chat);
 
-                    var chatUsers = request.GroupUsers.Split(",");
+                    var chatUsers = request.GroupUsers.Split(","); //client ile ugrasmak istemediğim için böyle bir çözüm getirdim
 
                     if (chatUsers.Count() >= 2)
                     {
