@@ -1,4 +1,4 @@
-# ChatAppServer <br/>
+# ChatAppServer .Net Core 6 <br/>
 Bir Chat uygulamasıdır <br/>
 Klasik kullancılar kayıt olup birbileri arasıda gruplar veya bire bir olarak konuşabilmektedir <br/>
 Şuan Çalışır vaziyette fakat çok fazla eksik mevcut (herhangi bir validasyon bile bulunmamakta) <br/>
